@@ -20,26 +20,26 @@ describe("convert", () => {
     expect(result.convertedAmount).toBe(10950);
     expect(result.exchangeRate).toBe(109.5);
   });
-  // Approximate comparison: converter doesn't round yet.
+
   test("converts 100 USD to EUR", () => {
     const result = convert("USD", "EUR", 100);
 
-    expect(result.convertedAmount).toBeCloseTo(91.66667, 4);
-    expect(result.exchangeRate).toBeCloseTo(0.9166667, 6);
+    expect(result.convertedAmount).toBe(91.67);
+    expect(result.exchangeRate).toBe(0.916667);
   });
 
   test("converts 1000 JPY to GBP", () => {
     const result = convert("JPY", "GBP", 1000);
 
-    expect(result.convertedAmount).toBeCloseTo(5.2055, 4);
-    expect(result.exchangeRate).toBeCloseTo(0.0052055, 6);
+    expect(result.convertedAmount).toBe(5.21);
+    expect(result.exchangeRate).toBe(0.005205);
   });
 
   test("converts 100 USD to CAD", () => {
     const result = convert("USD", "CAD", 100);
 
-    expect(result.convertedAmount).toBeCloseTo(138.88889, 4);
-    expect(result.exchangeRate).toBeCloseTo(1.3888889, 6);
+    expect(result.convertedAmount).toBe(138.89);
+    expect(result.exchangeRate).toBe(1.388889);
   });
 
   test("converts 100 CAD to CAD", () => {
@@ -47,5 +47,12 @@ describe("convert", () => {
 
     expect(result.convertedAmount).toBe(100);
     expect(result.exchangeRate).toBe(1);
+  });
+
+  test("converts 33.33 CAD to USD", () => {
+    const result = convert("CAD", "USD", 33.33);
+
+    expect(result.convertedAmount).toBe(24);
+    expect(result.exchangeRate).toBe(0.72);
   });
 });

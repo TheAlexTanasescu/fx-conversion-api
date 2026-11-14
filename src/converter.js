@@ -1,11 +1,16 @@
 const rates = require("./rates");
 
 const convert = (fromCurrency, toCurrency, amount) => {
-  const exchangeRate = rates[toCurrency] / rates[fromCurrency];
+  const rawRate = rates[toCurrency] / rates[fromCurrency];
   return {
-    convertedAmount: amount * exchangeRate,
-    exchangeRate,
+    convertedAmount: roundTo(amount * rawRate, 2),
+    exchangeRate: roundTo(rawRate, 6),
   };
 };
 
 module.exports = { convert };
+
+function roundTo(value, decimals) {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
+}
