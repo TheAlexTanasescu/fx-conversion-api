@@ -82,4 +82,41 @@ describe("POST /convert", () => {
     expect(response.status).toBe(400);
     expect(response.body.error).toContain("amount must be a positive number");
   });
+
+  test("returns 400 with a JSON error for malformed JSON", async () => {
+    const response = await request(app)
+      .post("/convert")
+      .set("Content-Type", "application/json")
+      .send('{"from":');
+
+    expect(response.status).toBe(400);
+    expect(response.type).toMatch(/json/);
+    expect(response.body.error).toContain("Malformed");
+  });
+
+  test("returns 400 with a message for an empty body", async () => {
+    const response = await request(app).post("/convert");
+
+    expect(response.status).toBe(400);
+    expect(typeof response.body.error).toBe("string");
+    expect(response.body.error.length).toBeGreaterThan(0);
+  });
+
+  test("returns 405 for the wrong method", async () => {
+    const response = await request(app).get("/convert");
+
+    expect(response.status).toBe(405);
+    expect(response.type).toMatch(/json/);
+    expect(response.headers.allow).toBe("POST");
+  });
+});
+
+describe("unknown routes", () => {
+  test("returns 404 with a JSON error", async () => {
+    const response = await request(app).get("/nothing");
+
+    expect(response.status).toBe(404);
+    expect(response.type).toMatch(/json/);
+    expect(response.body.error).toEqual(expect.any(String));
+  });
 });
