@@ -1,7 +1,7 @@
 {
   "name": "fx-conversion-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API that converts amounts between currencies using fixed exchange rates, with CAD as the base currency",
   "main": "index.js",
   "scripts": {
     "test": "jest",
